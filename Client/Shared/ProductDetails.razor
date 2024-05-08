@@ -28,11 +28,11 @@
 
     protected override void OnInitialized()
     {
-        if (productService.Products == null || productService.Products.Count == 0)
+        if (productService.products == null || productService.products.Count == 0)
         {
             productService.LoadProducts();
         }
 
-        product = productService.Products.FirstOrDefault(p => p.Id == Int32.Parse(Id));
+        product = productService.products.FirstOrDefault(p => p.Id == Int32.Parse(Id));
     }
 }

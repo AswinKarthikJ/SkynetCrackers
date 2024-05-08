@@ -21,11 +21,7 @@ namespace SkynetCrackers.Client.Services.CategoryService
 
         public async Task LoadCategories()
         {
-            Categories = new List<Category> {
-                new Category { Id = 1, Name = "Books", Url = "books", Icon = "book" },
-                new Category { Id = 2, Name = "Electronics", Url = "electronics", Icon = "camera-slr" },
-                new Category { Id = 1, Name = "Video Games", Url = "video-games", Icon = "aperture" }
-            };
+            Categories = await _http.GetFromJsonAsync<List<Category>>("api/Category");
         }
     }
 }

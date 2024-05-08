@@ -3,8 +3,8 @@
 
 <ul class="list-group">
     @foreach (var product in 
-    CategoryId == null ? productService.Products : 
-    productService.Products.Where(p => p.CategoryId == CategoryId))
+    CategoryId == null ? productService.products : 
+    productService.products.Where(p => p.CategoryId == CategoryId))
     {
         <div class="list-group-item">
         <li class="media my-3">
@@ -36,8 +36,8 @@
     [Parameter]
     public int? CategoryId { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        productService.LoadProducts();
+        await productService.LoadProducts();
     }
 }
