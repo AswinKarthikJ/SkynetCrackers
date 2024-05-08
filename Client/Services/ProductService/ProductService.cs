@@ -16,9 +16,22 @@ namespace SkynetCrackers.Client.Services.ProductService
             _http = http;
         }
 
-        public async Task LoadProducts()
+        public async Task LoadProducts(string categoryUrl = null)
         {
-            products = await _http.GetFromJsonAsync<List<Product>>("api/Product");
+            if (categoryUrl == null)
+            {
+                products = await _http.GetFromJsonAsync<List<Product>>("api/Product");
+            }
+            else
+            {
+                products = await _http.GetFromJsonAsync<List<Product>>($"api/Product/Category/{categoryUrl}");
+            }
+            OnChange.Invoke();
+        }
+
+        public async Task<Product> GetProduct(int id)
+        {
+            return await _http.GetFromJsonAsync<Product>($"api/Product/{id}");
         }
     }
 }

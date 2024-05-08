@@ -11,6 +11,13 @@ namespace SkynetCrackers.Server.Services
 
     public class ProductService : IProductService
     {
+
+        private readonly ICategoryService _categoryService;
+
+        public ProductService(ICategoryService categoryService)
+        {
+            _categoryService = categoryService;
+        }
         public async Task<List<Product>> GetAllProducts()
         {
             return products;
@@ -18,12 +25,14 @@ namespace SkynetCrackers.Server.Services
 
         public async Task<Product> GetProduct(int id)
         {
-            throw new NotImplementedException();
+            return products.FirstOrDefault(p => p.Id == id);
         }
 
         public async Task<List<Product>> GetProductsByCategory(string categoryUrl)
         {
-            throw new NotImplementedException();
+            var selectedCategory = _categoryService.GetCategoryByUrl(categoryUrl);
+
+            return products.Where(p => p.CategoryId == selectedCategory.Id).ToList();
         }
 
         public List<Product> products { get; set; } = new List<Product> {

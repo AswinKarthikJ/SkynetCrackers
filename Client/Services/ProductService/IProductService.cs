@@ -6,6 +6,7 @@ namespace SkynetCrackers.Client.Services.ProductService
     {
         event Action OnChange;
         List<Product> products { get; set; }
-        Task LoadProducts();
+        Task LoadProducts(string categoryUrl = null);
+        Task<Product> GetProduct(int id);
     }
 }

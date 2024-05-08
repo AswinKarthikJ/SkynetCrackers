@@ -1,10 +1,9 @@
 ﻿@using SkynetCrackers.Client.Services.ProductService
 @inject IProductService productService
+@implements IDisposable
 
 <ul class="list-group">
-    @foreach (var product in 
-    CategoryId == null ? productService.products : 
-    productService.products.Where(p => p.CategoryId == CategoryId))
+    @foreach (var product in productService.products)
     {
         <div class="list-group-item">
         <li class="media my-3">
@@ -33,11 +32,18 @@
 
 @code {
 
-    [Parameter]
-    public int? CategoryId { get; set; }
+    //     [Parameter]
+    //     public int? CategoryId { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await productService.LoadProducts();
+        // await productService.LoadProducts();
+
+        productService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        productService.OnChange -= StateHasChanged;
     }
 }
