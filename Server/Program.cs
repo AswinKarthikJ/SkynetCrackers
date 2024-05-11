@@ -1,16 +1,30 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Identity.Client;
+using SkynetCrackers.Server.Data;
 using SkynetCrackers.Server.Services;
 
 namespace SkynetCrackers
 {
     public class Program
     {
+        public Program(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+        public IConfiguration _configuration { get; }
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.AddDbContext<DataContext>(options => {
+                options.UseSqlServer("Server=localhost;database=SkynetCrackers;trusted_connection=true");
+            });
 
+            // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 
@@ -45,5 +59,17 @@ namespace SkynetCrackers
 
             app.Run();
         }
+
+        public class PharmacyContextFactory : IDesignTimeDbContextFactory<DataContext>
+        {
+            public DataContext CreateDbContext(string[] args)
+            {
+                var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
+                optionsBuilder.UseSqlServer("Server=localhost;database=skynetcrackers;trusted_connection=true");
+
+                return new DataContext(optionsBuilder.Options);
+            }
+        }
+
     }
 }

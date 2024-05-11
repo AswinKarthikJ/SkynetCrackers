@@ -1,4 +1,6 @@
-﻿using SkynetCrackers.Shared;
+﻿using Microsoft.EntityFrameworkCore;
+using SkynetCrackers.Server.Data;
+using SkynetCrackers.Shared;
 
 namespace SkynetCrackers.Server.Services
 {
@@ -6,25 +8,26 @@ namespace SkynetCrackers.Server.Services
     {
         Task<List<Category>> GetCategories();
 
-        Category GetCategoryByUrl(string categoryUrl);
+        Task<Category> GetCategoryByUrl(string categoryUrl);
     }
     public class CategoryService : ICategoryService
     {
-        public List<Category> categories { get; set; } = new List<Category> {
-                new Category { Id = 1, Name = "Books", Url = "books", Icon = "book" },
-                new Category { Id = 2, Name = "Electronics", Url = "electronics", Icon = "camera-slr" },
-                new Category { Id = 3, Name = "Video Games", Url = "video-games", Icon = "aperture" }
-            };
+        private readonly DataContext _context;
+
+        public CategoryService(DataContext context)
+        {
+            _context = context;
+        }
 
         public async Task<List<Category>> GetCategories()
         {
-            return categories;
+            return await  _context.Categories.ToListAsync();
         }
 
-        public Category GetCategoryByUrl(string categoryUrl)
+        public async Task<Category> GetCategoryByUrl(string categoryUrl)
         {
-            return categories.
-                FirstOrDefault(c => c.Url.ToLower().Equals(categoryUrl.ToLower()));
+            return await _context.Categories.
+                FirstOrDefaultAsync(c => c.Url.ToLower().Equals(categoryUrl.ToLower()));
         }
     }
 }
