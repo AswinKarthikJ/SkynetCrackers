@@ -1,5 +1,8 @@
 ﻿@page "/product/{id:int}"
 @inject IProductService productService
+@inject ILocalStorageService localStorage
+@inject IToastService toastService
+@inject ICartService cartService
 
 <div class="media">
     <div class="media-img-big-wrapper mr-2">
@@ -15,7 +18,7 @@
         <h4 class="price">
             $@product.Price
         </h4>
-        <button class="btn btn-primary"><i class="oi oi-cart"></i>&nbsp;&nbsp;&nbsp;Add to Cart</button>
+        <button class="btn btn-primary" @onclick="AddToCart"><i class="oi oi-cart"></i>&nbsp;&nbsp;&nbsp;Add to Cart</button>
     </div>
 
 </div>
@@ -29,5 +32,10 @@
     protected override async Task OnInitializedAsync()
     {
         product = await productService.GetProduct(Id);
+    }
+
+    private async Task AddToCart()
+    {
+        await cartService.AddToCart(product);
     }
 }

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkynetCrackers.Server", "Server\SkynetCrackers.Server.csproj", "{1DDF611B-D5CA-460F-8E19-5655CD69E6D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkynetCrackers.Server", "Server\SkynetCrackers.Server.csproj", "{1DDF611B-D5CA-460F-8E19-5655CD69E6D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkynetCrackers.Client", "Client\SkynetCrackers.Client.csproj", "{AFBD1660-8BA9-4AF6-B791-22E3891C774D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkynetCrackers.Client", "Client\SkynetCrackers.Client.csproj", "{AFBD1660-8BA9-4AF6-B791-22E3891C774D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkynetCrackers.Shared", "Shared\SkynetCrackers.Shared.csproj", "{BDBADD95-2795-49EF-8A6F-0A87B1D5EDFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkynetCrackers.Shared", "Shared\SkynetCrackers.Shared.csproj", "{BDBADD95-2795-49EF-8A6F-0A87B1D5EDFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

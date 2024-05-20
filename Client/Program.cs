@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using SkynetCrackers.Client;
 using SkynetCrackers.Client.Services.CategoryService;
 using SkynetCrackers.Client.Services.ProductService;
+using Blazored.LocalStorage;
+using Blazored.Toast;
+using SkynetCrackers.Client.Services;
 
 namespace SkynetCrackers.Client
 {
@@ -18,6 +21,9 @@ namespace SkynetCrackers.Client
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddBlazoredToast();
 
             await builder.Build().RunAsync();
         }
