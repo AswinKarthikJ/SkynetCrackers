@@ -9,6 +9,8 @@ namespace SkynetCrackers.Client.Services
     {
         event Action OnChange;
         Task AddToCart(Product product);
+        Task<List<CartItem>> GetCartItems();
+        Task DeleteItem(CartItem cartItem);
     }
 
     public class CartService : ICartService
@@ -37,11 +39,66 @@ namespace SkynetCrackers.Client.Services
                 cart = new List<Product>();
             }
 
-            cart.Add(product);
+            //var isProductExistsInCart = cart.FirstOrDefault
+            //    (c => c.Id == product.Id);
+
+            //if (isProductExistsInCart is null)
+               cart.Add(product);
+            //else
+            //    isProductExistsInCart.Quantity += 1;
+
             await _localStorage.SetItemAsync("cart", cart);
 
             _toastService.ShowSuccess($"Added to cart : {product.Title}");
 
+            OnChange.Invoke();
+        }
+
+        public async Task<List<CartItem>> GetCartItems()
+        {
+            var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+            if (cart == null)
+            {
+                return new List<CartItem>();
+            }
+
+            var items = new List<CartItem>();
+
+            foreach(var item in cart)
+            {
+                var itemExistsInCart = items.FirstOrDefault(c => c.Id == item.Id);
+                if (itemExistsInCart is null)
+                {
+                    items.Add(new CartItem
+                    {
+                        Id = item.Id,
+                        Image = item.Image,
+                        Price = item.Price,
+                        Title = item.Title,
+                        Quantity = 1,
+                    });
+                }
+                else
+                {
+                    itemExistsInCart.Quantity += 1;
+                }
+            }
+
+            return items;
+        }
+
+        public async Task DeleteItem(CartItem item)
+        {
+            var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+            if (cart == null)
+            {
+                return;
+            }
+
+            var cartItem = cart.Find(x => x.Id == item.Id);
+            cart.Remove(cartItem);
+
+            await _localStorage.SetItemAsync("cart", cart);
             OnChange.Invoke();
         }
     }
